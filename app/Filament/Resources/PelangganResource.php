@@ -34,6 +34,7 @@ class PelangganResource extends Resource
     {
         return $table
             ->columns([
+                // menambah kolom pencarian otomatis menggunakan "searchable"
                 Tables\Columns\TextColumn::make('nama')->searchable(),
                 Tables\Columns\TextColumn::make('no_hp')->label('Nomor Handphone')->searchable(),
                 Tables\Columns\TextColumn::make('alamat')->searchable(),
