@@ -20,21 +20,28 @@ class SupplierResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-inbox-arrow-down';
     protected static ?string $label = 'Data Supplier';
 
+    public static function getForm()
+    {
+        return [
+            Forms\Components\TextInput::make('nama perusahaan'),
+            Forms\Components\TextInput::make('nama'),
+            Forms\Components\TextInput::make('no_hp')
+            ->label('Nomor Handphone')
+            ->type('number'),
+            Forms\Components\TextInput::make('email')
+            ->type('email')
+            ->label('Email'),
+            Forms\Components\Textarea::make('alamat')
+            ->columnSpanFull(),
+        ];
+    }
+
     public static function form(Form $form): Form
     {
         return $form
-            ->schema([
-                Forms\Components\TextInput::make('nama perusahaan'),
-                Forms\Components\TextInput::make('nama'),
-                Forms\Components\TextInput::make('no_hp')
-                    ->label('Nomor Handphone')
-                    ->type('number'),
-                Forms\Components\TextInput::make('email')
-                    ->type('email')
-                    ->label('Email'),
-                Forms\Components\Textarea::make('alamat')
-                    ->columnSpanFull(),
-            ]);
+            ->schema(
+                self::getForm()
+            );
     }
 
     public static function table(Table $table): Table
@@ -42,10 +49,7 @@ class SupplierResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('nama perusahaan')
-                    ->label('Nama Perusahaan')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('nama')
-                    ->searchable(),
+            ->label('Nomor Supplier')->searchable(),
                 Tables\Columns\TextColumn::make('no_hp')
                     ->label('Nomor Handphone')->searchable(),
                 Tables\Columns\TextColumn::make('email')
