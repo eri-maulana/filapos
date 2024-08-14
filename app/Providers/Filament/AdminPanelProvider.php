@@ -61,14 +61,14 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->plugins([
                 FilamentEditProfilePlugin::make()
-                    ->setIcon('heroicon-o-user')
+                ->setIcon('heroicon-o-cog')
                     ->shouldShowAvatarForm(),
             ])
             ->userMenuItems([
                 MenuItem::make()
                     ->label('Edit Profil')
                     ->url(fn (): string => EditProfilePage::getUrl())
-                    ->icon('heroicon-m-user-circle'),
+                ->icon('heroicon-o-cog'),
             ]);
     }
 }

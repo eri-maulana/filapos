@@ -10,6 +10,7 @@ class EditPelanggan extends EditRecord
 {
     protected static string $resource = PelangganResource::class;
 
+    // pengarahan ke halaman index setelah menekan tombol simpan
     protected function getRedirectUrl(): string
     {
         return $this->getResource()::getUrl('index');
