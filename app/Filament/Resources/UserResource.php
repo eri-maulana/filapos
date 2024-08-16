@@ -2,16 +2,24 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\UserResource\Pages;
-use App\Filament\Resources\UserResource\RelationManagers;
-use App\Models\User;
 use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
+use App\Models\User;
 use Filament\Tables;
+use Filament\Forms\Form;
 use Filament\Tables\Table;
+use Filament\Resources\Resource;
+use Filament\Forms\Components\Select;
+use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Forms\Components\TextInput;
+use Filament\Tables\Columns\ImageColumn;
+use Filament\Forms\Components\FileUpload;
 use Illuminate\Database\Eloquent\Builder;
+use Filament\Tables\Actions\BulkActionGroup;
+use Filament\Tables\Actions\DeleteBulkAction;
+use App\Filament\Resources\UserResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\UserResource\RelationManagers;
 
 class UserResource extends Resource
 {
@@ -24,23 +32,23 @@ class UserResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\FileUpload::make('avatar_url')
+                FileUpload::make('avatar_url')
                     ->required()
                     ->avatar()
                     ->label('Avatar'),
-                Forms\Components\TextInput::make('name')
+                TextInput::make('name')
                     ->required()
                     ->label('Nama'),
-                Forms\Components\TextInput::make('email')
+                TextInput::make('email')
                     ->label('Email')
                     ->required(),
-                Forms\Components\TextInput::make('password')
-                    ->dehydrated(fn ($state) => filled($state))
-                    ->required(fn (string $context): bool => $context === 'create')
+                TextInput::make('password')
+                    ->dehydrated(fn($state) => filled($state))
+                    ->required(fn(string $context): bool => $context === 'create')
                     ->label('Kata Sandi')
                     ->password()
                     ->revealable(),
-                Forms\Components\Select::make('role')
+                Select::make('role')
                     ->options([
                         'operator' => 'Operator',
                         'admin' => 'Admin',
@@ -52,29 +60,30 @@ class UserResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->columns([Tables\Columns\ImageColumn::make('avatar_url')
-                ->circular()
-                ->label('Avatar'),
-            Tables\Columns\TextColumn::make('name')
-                ->label('Nama')
-                ->searchable(),
-            Tables\Columns\TextColumn::make('email')
-                ->label('Email')
-                ->searchable(),
-            Tables\Columns\TextColumn::make('role')
-                ->label('Role')
-                ->searchable(),
-                Tables\Columns\TextColumn::make('created_at'),
+            ->columns([
+                ImageColumn::make('avatar_url')
+                    ->circular()
+                    ->label('Avatar'),
+                TextColumn::make('name')
+                    ->label('Nama')
+                    ->searchable(),
+                TextColumn::make('email')
+                    ->label('Email')
+                    ->searchable(),
+                TextColumn::make('role')
+                    ->label('Role')
+                    ->searchable(),
+                TextColumn::make('created_at'),
             ])
             ->filters([
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                EditAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }

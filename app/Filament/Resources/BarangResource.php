@@ -2,16 +2,22 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\BarangResource\Pages;
-use App\Filament\Resources\BarangResource\RelationManagers;
-use App\Models\Barang;
 use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
 use Filament\Tables;
+use App\Models\Barang;
+use Filament\Forms\Form;
 use Filament\Tables\Table;
+use Filament\Resources\Resource;
+use Filament\Forms\Components\Select;
+use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Builder;
+use Filament\Tables\Actions\BulkActionGroup;
+use Filament\Tables\Actions\DeleteBulkAction;
+use App\Filament\Resources\BarangResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\BarangResource\RelationManagers;
 
 class BarangResource extends Resource
 {
@@ -24,15 +30,14 @@ class BarangResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
-            ->schema([
-                Forms\Components\TextInput::make('kode')
+            ->schema([TextInput::make('kode')
                     ->label('Kode Barang'),
-                Forms\Components\TextInput::make('nama')
+            TextInput::make('nama')
                     ->label('Nama Barang'),
-                Forms\Components\TextInput::make('stok')
+            TextInput::make('stok')
                     ->label('Stok Awal')
                     ->disabledOn('edit'),
-                Forms\Components\Select::make('satuan')
+            Select::make('satuan')
                     ->label('Satuan')
                     ->options([
                         'psc' => 'Pcs',
@@ -44,28 +49,25 @@ class BarangResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->columns([
-                Tables\Columns\TextColumn::make('kode')
+            ->columns([TextColumn::make('kode')
                     ->label('Kode Barang')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('nama')
+            TextColumn::make('nama')
                     ->label('Nama Barang')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('stok')
+            TextColumn::make('stok')
                     ->label('Stok Awal')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('satuan')
+            TextColumn::make('satuan')
                     ->label('Satuan'),
             ])
             ->filters([
                 //
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
+            ->actions([EditAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+            ->bulkActions([BulkActionGroup::make([
+                DeleteBulkAction::make(),
                 ]),
             ]);
     }

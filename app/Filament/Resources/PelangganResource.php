@@ -2,16 +2,22 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\PelangganResource\Pages;
-use App\Filament\Resources\PelangganResource\RelationManagers;
-use App\Models\Pelanggan;
 use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Forms\Form;
+use App\Models\Pelanggan;
 use Filament\Tables\Table;
+use Filament\Resources\Resource;
+use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Forms\Components\TextInput;
+use Filament\Tables\Actions\DeleteAction;
 use Illuminate\Database\Eloquent\Builder;
+use Filament\Tables\Actions\BulkActionGroup;
+use Filament\Tables\Actions\DeleteBulkAction;
+use App\Filament\Resources\PelangganResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\PelangganResource\RelationManagers;
 
 class PelangganResource extends Resource
 {
@@ -23,10 +29,9 @@ class PelangganResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
-            ->schema([
-                Forms\Components\TextInput::make('nama')->required()->minLength(3),
-                Forms\Components\TextInput::make('no_hp')->label('Nomor Handphone')->unique(ignoreRecord: true),
-                Forms\Components\TextInput::make('alamat'),
+            ->schema([TextInput::make('nama')->required()->minLength(3),
+            TextInput::make('no_hp')->label('Nomor Handphone')->unique(ignoreRecord: true),
+            TextInput::make('alamat'),
             ]);
     }
 
@@ -34,21 +39,19 @@ class PelangganResource extends Resource
     {
         return $table
             ->columns([
-                // menambah kolom pencarian otomatis menggunakan "searchable"
-                Tables\Columns\TextColumn::make('nama')->searchable(),
-                Tables\Columns\TextColumn::make('no_hp')->label('Nomor Handphone')->searchable(),
-                Tables\Columns\TextColumn::make('alamat')->searchable(),
+            // menambah kolom pencarian otomatis menggunakan "searchable"
+            TextColumn::make('nama')->searchable(),
+            TextColumn::make('no_hp')->label('Nomor Handphone')->searchable(),
+            TextColumn::make('alamat')->searchable(),
             ])
             ->filters([
                 //
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+            ->actions([EditAction::make(),
+            DeleteAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+            ->bulkActions([BulkActionGroup::make([
+                DeleteBulkAction::make(),
                 ]),
             ]);
     }

@@ -2,16 +2,22 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\SupplierResource\Pages;
-use App\Filament\Resources\SupplierResource\RelationManagers;
-use App\Models\Supplier;
 use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
 use Filament\Tables;
+use App\Models\Supplier;
+use Filament\Forms\Form;
 use Filament\Tables\Table;
+use Filament\Resources\Resource;
+use Filament\Forms\Components\Textarea;
+use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Builder;
+use Filament\Tables\Actions\BulkActionGroup;
+use Filament\Tables\Actions\DeleteBulkAction;
+use App\Filament\Resources\SupplierResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\SupplierResource\RelationManagers;
 
 class SupplierResource extends Resource
 {
@@ -23,16 +29,16 @@ class SupplierResource extends Resource
     public static function getForm()
     {
         return [
-            Forms\Components\TextInput::make('nama perusahaan'),
-            Forms\Components\TextInput::make('nama'),
-            Forms\Components\TextInput::make('no_hp')
-            ->label('Nomor Handphone')
-            ->type('number'),
-            Forms\Components\TextInput::make('email')
-            ->type('email')
-            ->label('Email'),
-            Forms\Components\Textarea::make('alamat')
-            ->columnSpanFull(),
+            TextInput::make('nama perusahaan'),
+            TextInput::make('nama'),
+            TextInput::make('no_hp')
+                ->label('Nomor Handphone')
+                ->type('number'),
+            TextInput::make('email')
+                ->type('email')
+                ->label('Email'),
+            Textarea::make('alamat')
+                ->columnSpanFull(),
         ];
     }
 
@@ -48,24 +54,24 @@ class SupplierResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('nama perusahaan')
-            ->label('Nomor Supplier')->searchable(),
-                Tables\Columns\TextColumn::make('no_hp')
+                TextColumn::make('nama perusahaan')
+                    ->label('Nomor Supplier')->searchable(),
+            TextColumn::make('no_hp')
                     ->label('Nomor Handphone')->searchable(),
-                Tables\Columns\TextColumn::make('email')
+            TextColumn::make('email')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('alamat')
+            TextColumn::make('alamat')
                     ->searchable(),
             ])
             ->filters([
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                EditAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }
