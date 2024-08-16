@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use Filament\Forms;
 use Filament\Tables;
+use Filament\Forms\Set;
 use App\Models\Supplier;
 use Filament\Forms\Form;
 use App\Models\Pembelian;
@@ -12,6 +13,7 @@ use Filament\Resources\Resource;
 use Filament\Forms\Components\Select;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\DatePicker;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Tables\Actions\BulkActionGroup;
@@ -42,15 +44,24 @@ class PembelianResource extends Resource
                     )
                     ->createOptionUsing(function (array $data): int {
                         return Supplier::create($data)->id;
+                })
+                ->reactive()
+                ->afterStateUpdated(function ($state, Set $set) {
+                    $supplier = Supplier::find($state);
+                    $set('email', $supplier->email ?? null);
                     }),
                 DatePicker::make('tanggal'),
+            TextInput::make('email')
+            ->columnSpanFull()
+            ->disabled(),
             ]);
     }
 
     public static function table(Table $table): Table
     {
         return $table
-            ->columns([TextColumn::make('supplier_id')
+            ->columns([
+                TextColumn::make('supplier_id')
                     ->label('Nama Supplier')
                     ->searchable(),
             TextColumn::make('tanggal')
@@ -59,10 +70,12 @@ class PembelianResource extends Resource
             ->filters([
                 //
             ])
-            ->actions([EditAction::make(),
+            ->actions([
+                EditAction::make(),
             ])
-            ->bulkActions([BulkActionGroup::make([
-                DeleteBulkAction::make(),
+            ->bulkActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }
