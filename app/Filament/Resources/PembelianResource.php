@@ -32,6 +32,10 @@ class PembelianResource extends Resource
     {
         return $form
             ->schema([
+                DatePicker::make('tanggal')
+                    ->columnSpanFull()
+                    ->required()
+                    ->label('Tanggal Pembelian'),
                 Select::make('supplier_id')
                     ->options(
                 Supplier::pluck('nama_perusahaan', 'id')
@@ -50,10 +54,10 @@ class PembelianResource extends Resource
                     $supplier = Supplier::find($state);
                     $set('email', $supplier->email ?? null);
                     }),
-                DatePicker::make('tanggal'),
+
             TextInput::make('email')
-            ->columnSpanFull()
-            ->disabled(),
+
+                ->disabled(),
             ]);
     }
 
