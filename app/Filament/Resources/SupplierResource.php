@@ -29,7 +29,7 @@ class SupplierResource extends Resource
     public static function getForm()
     {
         return [
-            TextInput::make('nama perusahaan'),
+            TextInput::make('nama_perusahaan'),
             TextInput::make('nama'),
             TextInput::make('no_hp')
                 ->label('Nomor Handphone')
@@ -53,8 +53,7 @@ class SupplierResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->columns([
-                TextColumn::make('nama perusahaan')
+            ->columns([TextColumn::make('nama_perusahaan')
                     ->label('Nomor Supplier')->searchable(),
             TextColumn::make('no_hp')
                     ->label('Nomor Handphone')->searchable(),

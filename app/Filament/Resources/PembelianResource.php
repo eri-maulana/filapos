@@ -34,7 +34,7 @@ class PembelianResource extends Resource
             ->schema([
                 Select::make('supplier_id')
                     ->options(
-                        Supplier::pluck('nama perusahaan', 'id')
+                Supplier::pluck('nama_perusahaan', 'id')
                     )
                     ->required()
                     ->label('Pilih Supplier')
